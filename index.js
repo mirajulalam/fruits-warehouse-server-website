@@ -17,6 +17,7 @@ async function run() {
     try {
         await client.connect();
         const fruitsCollection = client.db('fruits').collection('warehouse');
+        const productCollection = client.db('fruits').collection('product')
         app.get('/products', async (req, res) => {
             const query = {};
             const cursor = fruitsCollection.find(query);
@@ -52,21 +53,35 @@ async function run() {
             res.send(result)
         });
 
+
         // post add new product
-        app.post('/products',async(req,res)=>{
-            const newProduct =req.body;
+        app.post('/products', async (req, res) => {
+            const newProduct = req.body;
             const result = await fruitsCollection.insertOne(newProduct);
             res.send(result)
-        })
+        });
+
+        // app.get('/product', async (req, res) => {
+        //     const email = req.query.email;
+        //     console.log(email);
+        //     const query = {};
+        //     const cursor = productCollection.find(query)
+        //     const myItem = await cursor.toArray()
+        //     res.send(myItem)
+        // })
     }
     finally { }
 }
+run().catch(console.dir)
 
+app.get('/hero', (req, res) => {
+    res.send('hero meets hero ku')
+})
 app.get('/', (req, res) => {
     res.send('running fruits server')
 })
 
-run().catch(console.dir)
+
 app.listen(port, () => {
     console.log('listening to port', port);
 })
