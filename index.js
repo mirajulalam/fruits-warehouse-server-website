@@ -30,7 +30,7 @@ async function run() {
             const products = await fruitsCollection.findOne(query)
             res.send(products)
         })
-        // update quantity
+        // handle increase quantity
         app.put('/products/:id', async (req, res) => {
             const id = req.params.id;
             const updateQuantity = req.body;
@@ -38,17 +38,24 @@ async function run() {
             const options = { upsert: true }
             const updateDoc = {
                 $set: {
-                    quantity: updateQuantity.UpdateQuantity
+                    quantity: updateQuantity.quantity
                 }
             };
-            const result = await fruitsCollection.updateOne(filter, updateDoc, options);
+            const result = await fruitsCollection.updateOne(filter, updateDoc, options)
             res.send(result)
-        });
+        })
         // delete product
         app.delete('/products/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const result = await fruitsCollection.deleteOne(query)
+            res.send(result)
+        });
+
+        // post add new product
+        app.post('/products',async(req,res)=>{
+            const newProduct =req.body;
+            const result = await fruitsCollection.insertOne(newProduct);
             res.send(result)
         })
     }
