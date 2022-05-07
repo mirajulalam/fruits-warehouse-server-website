@@ -17,7 +17,8 @@ async function run() {
     try {
         await client.connect();
         const fruitsCollection = client.db('fruits').collection('warehouse');
-        const productCollection = client.db('fruits').collection('product')
+        const productCollection = client.db('fruits').collection('product');
+
         app.get('/products', async (req, res) => {
             const query = {};
             const cursor = fruitsCollection.find(query);
@@ -34,12 +35,14 @@ async function run() {
         // handle increase quantity
         app.put('/products/:id', async (req, res) => {
             const id = req.params.id;
-            const updateQuantity = req.body;
+            const updatedQuantity = req.body;
+            console.log(updatedQuantity)
+            console.log(updatedQuantity.e)
             const filter = { _id: ObjectId(id) }
             const options = { upsert: true }
             const updateDoc = {
                 $set: {
-                    quantity: updateQuantity.quantity
+                    quantity: updatedQuantity.updatedQuantity
                 }
             };
             const result = await fruitsCollection.updateOne(filter, updateDoc, options)
