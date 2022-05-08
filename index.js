@@ -34,25 +34,26 @@ async function run() {
         });
 
         // // handle descrese quantity
-        app.put('/products/:id', async (req, res) => {
-            const id = req.params.id;
-            const updateQuantity = req.body;
-            console.log(updateQuantity);
-            const filter = { _id: ObjectId(id) }
-            const options = { upsert: true }
-            const updateDoc = {
-                $set: {
-                    quantity: updateQuantity.quantity
-                }
-            };
-            const result = await fruitsCollection.updateOne(filter, updateDoc, options)
-            res.send(result)
-        })
+        // app.put('/products/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const updateQuantity = req.body;
+        //     console.log(updateQuantity);
+        //     const filter = { _id: ObjectId(id) }
+        //     const options = { upsert: true }
+        //     const updateDoc = {
+        //         $set: {
+        //             quantity: updateQuantity.quantity
+        //         }
+        //     };
+        //     const result = await fruitsCollection.updateOne(filter, updateDoc, options)
+        //     res.send(result)
+        // })
 
         // handle increase quantity
         app.put('/products/:id', async (req, res) => {
             const id = req.params.id;
             const updatedQuantity = req.body;
+            console.log(updatedQuantity);
             const filter = { _id: ObjectId(id) }
             const options = { upsert: true }
             const updateDoc = {
