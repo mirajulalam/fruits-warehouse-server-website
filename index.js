@@ -18,7 +18,7 @@ async function run() {
         await client.connect();
         const fruitsCollection = client.db('fruits').collection('warehouse');
         const productCollection = client.db('fruits').collection('product');
-
+        // handle product load
         app.get('/products', async (req, res) => {
             const query = {};
             const cursor = fruitsCollection.find(query);
@@ -33,23 +33,8 @@ async function run() {
             res.send(products)
         });
 
-        // // handle descrese quantity
-        // app.put('/products/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const updateQuantity = req.body;
-        //     console.log(updateQuantity);
-        //     const filter = { _id: ObjectId(id) }
-        //     const options = { upsert: true }
-        //     const updateDoc = {
-        //         $set: {
-        //             quantity: updateQuantity.quantity
-        //         }
-        //     };
-        //     const result = await fruitsCollection.updateOne(filter, updateDoc, options)
-        //     res.send(result)
-        // })
 
-        // handle increase quantity
+        // handle  quantity update
         app.put('/products/:id', async (req, res) => {
             const id = req.params.id;
             const updatedQuantity = req.body;
