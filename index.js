@@ -31,13 +31,28 @@ async function run() {
             const query = { _id: ObjectId(id) }
             const products = await fruitsCollection.findOne(query)
             res.send(products)
-        })
+        });
+
+        // // handle descrese quantity
+        // app.put('/products/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const updateQuantity = req.body;
+        //     console.log(updateQuantity);
+        //     const filter = { _id: ObjectId(id) }
+        //     const options = { upsert: true }
+        //     const updateDoc = {
+        //         $set: {
+        //             quantity: updateQuantity.quantity
+        //         }
+        //     };
+        //     const result = await fruitsCollection.updateOne(filter, updateDoc, options)
+        //     res.send(result)
+        // })
+
         // handle increase quantity
         app.put('/products/:id', async (req, res) => {
             const id = req.params.id;
             const updatedQuantity = req.body;
-            console.log(updatedQuantity)
-            console.log(updatedQuantity.e)
             const filter = { _id: ObjectId(id) }
             const options = { upsert: true }
             const updateDoc = {
@@ -48,14 +63,14 @@ async function run() {
             const result = await fruitsCollection.updateOne(filter, updateDoc, options)
             res.send(result)
         })
-        // delete product
+
+        // handle delete product
         app.delete('/products/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const result = await fruitsCollection.deleteOne(query)
             res.send(result)
         });
-
 
         // post add new product
         app.post('/products', async (req, res) => {
@@ -64,14 +79,14 @@ async function run() {
             res.send(result)
         });
 
-        // app.get('/product', async (req, res) => {
-        //     const email = req.query.email;
-        //     console.log(email);
-        //     const query = {};
-        //     const cursor = productCollection.find(query)
-        //     const myItem = await cursor.toArray()
-        //     res.send(myItem)
-        // })
+        app.get('/product', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = {};
+            const cursor = fruitsCollection.find(query)
+            const myItem = await cursor.toArray()
+            res.send(myItem)
+        })
     }
     finally { }
 }
